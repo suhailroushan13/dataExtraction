@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Device Browser</title>
+  </head>
+  <body>
+    <button onclick="loadDevices()">Refresh Devices</button>
+    <div id="device-list"></div>
+    <div id="file-list"></div>
+
+    <script>
+      async function loadFiles(path = "") {
+        const response = await fetch(`/files/${path}`);
+        const data = await response.json();
+
+        const fileList = document.getElementById("file-list");
+        fileList.innerHTML = "";
+
+        data.forEach((item) => {
+          const div = document.createElement("div");
+          if (item.type === "directory") {
+            div.innerHTML = `<a href="#" onclick="loadFiles('${
+              path + "/" + item.name
+            }')">${item.name}</a>`;
+          } else {
+            div.textContent = item.name;
+          }
+          fileList.appendChild(div);
+        });
+      }
+
+      async function loadDevices() {
+        const response = await fetch("/devices");
+        const devices = await response.json();
+
+        const deviceList = document.getElementById("device-list");
+        deviceList.innerHTML = "";
+
+        devices.forEach((device) => {
+          const div = document.createElement("div");
+          div.textContent = device.deviceName;
+          deviceList.appendChild(div);
+        });
+      }
+
+      loadFiles();
+    </script>
+  </body>
+</html>
