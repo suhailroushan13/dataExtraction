@@ -4,7 +4,7 @@ import path from "path";
 
 const app = express();
 const port = 3000; // You can change the port number if needed
-const mobileDriveLetter = "D:/"; // Change this to the drive letter of your mobile device
+const mobileDriveLetter = "E:/"; // Change this to the drive letter of your mobile device
 
 const mobileFolderPath = path.join(mobileDriveLetter);
 
